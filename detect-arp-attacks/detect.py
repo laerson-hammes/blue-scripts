@@ -22,17 +22,19 @@ class DetectARPAttack:
         scapy.sniff(
             iface=interface,
             store=False,
-            prn=DetectARPAttack.process_sniffed_packet
+            prn=DetectARPAttack._process_sniffed_packet
         )
 
     @classmethod
-    def process_sniffed_packet(cls, packet: Ether, /):
+    def _process_sniffed_packet(cls, packet: Ether, /):
         if packet.haslayer(scapy.ARP) and packet[scapy.ARP].op == 2:
             try:
                 if MACAddress.get(packet[scapy.ARP].psrc) == packet[scapy.ARP].hwsrc:
                     print(f'{Fore.RED}[-] YOU ARE UNDER ATTACK...')
+
+                    os.get(platform.system()).disable_net_adapter()
             except IndexError:
-                pass
+                ...
 
 
 os: dict[str, System] = {

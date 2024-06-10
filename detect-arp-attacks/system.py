@@ -11,6 +11,10 @@ class System(ABCMeta):
     def get_interface():
         ...
 
+    @abstractmethod
+    def disable_net_adapter():
+        ...
+
 
 def system_other_than_error() -> None:
     print(f'{Fore.RED}[-] OPERATING SYSTEM OTHER THAN LINUX OR WINDOWS...')
